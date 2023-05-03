@@ -6,7 +6,7 @@ import {MovieView} from "../MovieView/movie-view";
 
 
 export const MainView = () => {
-    const[movie, setMovie] = useState([ ]);
+    const[movies, setMovie] = useState([ ]);
 
     const [selectedMovie, setSelectedMovie] = useState(null);
 
@@ -14,13 +14,18 @@ export const MainView = () => {
         fetch("https://alexa-movie-universe.herokuapp.com/movies")
         .then((response) => response.json())
         .then((data)=>{
-           const movieFromApi =data.docs.map((doc) => {
+            console.log(data);
+           const movieFromApi =data.map((doc) => {
             return{
-                id: doc.key,
+                id: doc._id,
                 title: doc.title,
-                director: doc.director_name?.[0]
-            };
+                director: {
+                    ...doc.director,
+                    birth: doc.director.birth ? new Date(doc.director.birth) : null,
+                }
+           };
            }) ;
+           console.log(movieFromApi);
            setMovie(movieFromApi)
         });
     }, []);
@@ -33,12 +38,12 @@ export const MainView = () => {
       }
 
     
-    if (movie.length === 0){
+    if (movies.length === 0){
         return <div>The list is empty</div>
     } 
     return (
     <div>
-        {movie.map((movie) => (
+        {movies.map((movie) => (
             <MovieCard 
             key={movie.id}
             movie={movie}

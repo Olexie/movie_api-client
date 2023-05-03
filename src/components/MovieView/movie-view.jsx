@@ -12,7 +12,11 @@ export const MovieView = ({ movie, onBackClick }) => {
         </div>
         <div>
           <span>director: </span>
-          <span>{movie.director}</span>
+          <span>{movie.director.name}</span>
+        </div>
+        <div>
+            <span>director DOB:</span>
+            <span>{movie.director.birth?.toLocaleDateString()}</span>
         </div>
         <button onClick={onBackClick}>Back</button>
       </div>
