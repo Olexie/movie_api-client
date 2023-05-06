@@ -3,12 +3,16 @@ import PropTypes from "prop-types";
 import {useState, useEffect} from "react";
 import {MovieCard} from'../MovieCard';
 import {MovieView} from "../MovieView/movie-view";
+import { LoginView } from "../LoginView/login-view";
+
 
 
 export const MainView = () => {
     const[movies, setMovie] = useState([ ]);
 
     const [selectedMovie, setSelectedMovie] = useState(null);
+
+    const[user, setUser] = useState(null);
 
     useEffect(() =>{
         fetch("https://alexa-movie-universe.herokuapp.com/movies")
@@ -29,6 +33,10 @@ export const MainView = () => {
            setMovie(movieFromApi)
         });
     }, []);
+
+    if (!user){
+        return <LoginView />;
+    }
 
     if (selectedMovie) {
         return(
