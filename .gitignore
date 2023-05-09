@@ -1,3 +1,9 @@
 node_modules
 .cache
 .parcel-cache
+
+# compiled output
+/dist
+
+# System files
+.DS_Store
