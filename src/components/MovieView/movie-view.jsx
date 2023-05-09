@@ -1,3 +1,6 @@
+
+import "./movie-view.scss";
+
 import PropTypes from "prop-types";
 
 export const MovieView = ({ movie, onBackClick }) => {
@@ -18,7 +21,9 @@ export const MovieView = ({ movie, onBackClick }) => {
             <span>director DOB:</span>
             <span>{movie.director.birth?.toLocaleDateString()}</span>
         </div>
-        <button onClick={onBackClick}>Back</button>
+        <button onClick={onBackClick} className="back-button" style={{cursor:"pointer"}}>
+          Back
+          </button>
       </div>
     );
   };
