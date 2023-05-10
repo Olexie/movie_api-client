@@ -8,22 +8,26 @@ import { SignupView } from "../SignupView/signup-view";
 
 import Row from "react-bootstrap/Row";
 import Col from 'react-bootstrap/Col';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 
 export const MainView = () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+  /*  const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
     const [user, setUser] = useState(storedUser? storedUser : null);
     const [token, setToken] = useState(storedToken? storedToken : null);
     const[movies, setMovie] = useState([ ]);
 
-    const [selectedMovie, setSelectedMovie] = useState(null);
+const [selectedMovie, setSelectedMovie] = useState(null); */
+
+   const[movies, setMovie] = useState([]);
+   const[user, setUser] = useState(null);
 
 
     useEffect(() =>{
-        if (!token) {
+    /*    if (!token) {
             return;
-          }
+          } */
       
         fetch("https://alexa-movie-universe.herokuapp.com/movies", {
             headers: { Authorization: `Bearer ${token}` }
