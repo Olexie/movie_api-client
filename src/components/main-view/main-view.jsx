@@ -5,6 +5,8 @@ import {MovieCard} from'../MovieCard';
 import {MovieView} from "../MovieView/movie-view";
 import { LoginView } from "../LoginView/login-view";
 import { SignupView } from "../SignupView/signup-view";
+import { NavigationBar } from "../NavigationBar/navigation-bar";
+import { ProfileView } from "../ProfileView/profile-view";
 
 import Row from "react-bootstrap/Row";
 import Col from 'react-bootstrap/Col';
@@ -50,8 +52,16 @@ export const MainView = () => {
     }, [token]);
 
 
-    return (
+    return (               
         <BrowserRouter>
+        <NavigationBar
+            user={user}
+            onLoggedOut={() => {
+                setUser(null);
+                setToken(null);
+                localStorage.clear();
+            }}
+        />
         <Row className="justify-content-md-center"> 
         <Routes>
         <Route
@@ -134,6 +144,19 @@ export const MainView = () => {
               </>
             }
           />
+
+        <Route path="/users/:userId" element= {
+             <>
+             {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : ( 
+                <Col md={8}>
+                    <ProfileView movies={movies} user={user} />
+                </Col>)}</>
+                }
+            />
         </Routes>
         </Row>
         </BrowserRouter>
