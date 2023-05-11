@@ -131,6 +131,8 @@ export const MainView = () => {
                         <Col key={movie.id} md={3}>
                         <MovieCard                 
                         movie={movie}
+                        user={user}
+                        token={token}
                         onMovieClick={(newSelectedMovie) => {
                             setSelectedMovie(newSelectedMovie);
                         }}
