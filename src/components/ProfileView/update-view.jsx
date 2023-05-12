@@ -3,13 +3,17 @@ import{ useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export const SignupView = () => {
-  const [name_, setName] = useState("");
-  const [username, setUsername] = useState("");
+export function UpdateView(props) {
+  const storedToken = localStorage.getItem('token');
+  const { user } = props;
+  const [name_, setName] = useState(user.name);
+  const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
-
+  const [email, setEmail] = useState(user.email);
+  const [birthday, setBirthday] = useState(user.birthday);
+  
+  const [token] = useState(storedToken ? storedToken : null);
+  
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -22,18 +26,19 @@ export const SignupView = () => {
       favouriteMovies:[]
     };
 
-    fetch("https://alexa-movie-universe.herokuapp.com/users", {
-      method: "POST",
+    fetch(`https://alexa-movie-universe.herokuapp.com/users/${user.username}`, {
+      method: "PUT",
       body: JSON.stringify(data),
       headers: {
-        "Content-Type": "application/json"
-      }
+         'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    },
     }).then((response) => {
       if (response.ok) {
-        alert("Signup successful");
-        window.location.reload();
+        alert("Profile update success!");        
+        window.open('/users/:username', '_self');
       } else {
-        alert("Signup failed");
+        alert("Profile update failed");
       }
     });
   };
@@ -45,7 +50,7 @@ export const SignupView = () => {
           <Form.Label>Name:</Form.Label>
           <Form.Control
             type="text"
-            value={name_}
+            defaultValue={user.name}                      
             onChange={(e) => setName(e.target.value)}
             required
           />
@@ -56,7 +61,7 @@ export const SignupView = () => {
           <Form.Label>Username:</Form.Label>
           <Form.Control
             type="text"
-            value={username}
+            defaultValue={user.username}            
             onChange={(e) => setUsername(e.target.value)}
             required
             minLength="3"
@@ -78,7 +83,7 @@ export const SignupView = () => {
           <Form.Label>Email:</Form.Label>
           <Form.Control
             type="email"
-            value={email}
+            defaultValue={user.email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -88,14 +93,14 @@ export const SignupView = () => {
           <Form.Label>Birthday:</Form.Label>
           <Form.Control
             type="date"
-            value={birthday}
+            defaultValue={user.birthday}
             onChange={(e) => setBirthday(e.target.value)}
             required
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-        Sign up
+        <Button variant="warning" type="submit">
+        Update Profile
         </Button>
 
     </Form>

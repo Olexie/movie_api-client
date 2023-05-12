@@ -1,6 +1,11 @@
-import PropTypes from "prop-types";
 
-export const MovieView = ({ movie, onBackClick }) => {
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import "./movie-view.scss";
+
+export const MovieView = ({ movies }) => {
+    const { movieId } = useParams();
+    const movie = movies.find((m) => m.id === movieId);
     return (
       <div>
         <div>
@@ -18,7 +23,9 @@ export const MovieView = ({ movie, onBackClick }) => {
             <span>director DOB:</span>
             <span>{movie.director.birth?.toLocaleDateString()}</span>
         </div>
-        <button onClick={onBackClick}>Back</button>
+        <Link to={`/`}>
+          <button className="back-button">Back</button>
+        </Link>
       </div>
     );
   };
